@@ -13,6 +13,14 @@ html {
   overflow: scroll;
 }
 
+/* Confetti */
+.confettiCanvas{
+  position:fixed;
+  top:0;
+  height: 100vh;
+  z-index: -1;
+}
+
 /* Game container */
 .Hangman {
   display:flex;
@@ -20,6 +28,12 @@ html {
   width: 100%;
   margin: 0 auto;
   height: calc(100% - var(--h2-height));
+}
+
+.Hangman-word{
+  margin-top: 0;
+  font-weight: bolder;
+  font-size: larger;
 }
 
 /* For keyboard */
@@ -78,6 +92,27 @@ html {
   max-width: 70%;
   height: auto;
   margin: 0 auto;
+  z-index: -2;
+}
+
+#reset{
+  border: 0;
+  padding: 0 10px;
+  margin: 0 auto;
+  height: 2em;
+  width: 15em;
+  border: solid #D4B19B;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: larger;
+  cursor: pointer;
+  user-select: none;
+  background-color: #D4B19B;
+  color: var(--key-text-color);
+  /* flex: 1;  */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* .App-logo {
