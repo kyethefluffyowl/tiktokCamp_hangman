@@ -22,7 +22,7 @@ import Hangman from "./hangman.js";
 //     </div>
 //   );
 // }
-
+document.title="Hangman"
 function App() {
   return (
     <div className="App">
