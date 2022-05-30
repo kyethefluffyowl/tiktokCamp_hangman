@@ -47,16 +47,9 @@ class Hangman extends Component {
       guessed: st.guessed.add(letter),
       noOfWrong: st.noOfWrong + (st.answer.includes(letter) ? 0 : 1),
     }));
-
-    // if (letter === 'z') {
-    //     console.log("You clicked the letter Z");
-    //     console.log("The word in hangman.js is: " + randomWordWeb());
-    //     this.setState({noOfWrong: 999})
-    // }
   }
 
   generateKeypad() {
-
     return "abcdefghijklmnopqrstuvwxyz".split("").map((letter) => (
         <button
           className="Hangman-keys"
@@ -70,8 +63,7 @@ class Hangman extends Component {
       ));
   }
 
-  generateLives() {
-    
+    generateLives() {
       let content = [];
       for (let i = 0; i<this.props.maxWrong - this.state.noOfWrong; i++) {
           content.push("🤍");
@@ -90,10 +82,8 @@ class Hangman extends Component {
       useWorker: true
     });
 
-    
-
-// confetti function YAY
-setTimeout(10);
+    // confetti function YAY
+    setTimeout(10);
     myConfetti({
       particleCount: 50,
       angle:60,
@@ -116,6 +106,20 @@ setTimeout(10);
       });
 
     }
+
+    keyPressEventListener() {
+		window.addEventListener("keydown", function(event) {
+			let letter = event.key;
+			var buttons = document.getElementsByTagName('button');
+			for (let i=0; i<buttons.length; i++) {
+				console.log("Now searching: " + buttons[i].value + "| " + letter);
+				if (buttons[i].value == letter) {
+					buttons[i].click();
+					break;
+				}
+			}
+		  }, true);
+	}
 
 
   render() {
@@ -141,6 +145,7 @@ setTimeout(10);
             Restart?
           </button>
         )}
+		{onkeydown = this.keyPressEventListener()}
       </div>
     );
   }

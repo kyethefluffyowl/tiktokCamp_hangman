@@ -22,7 +22,10 @@ import Hangman from "./hangman.js";
 //     </div>
 //   );
 // }
+var faviconLink = document.querySelector("link[rel~='icon']");
 document.title="Hangman"
+document.getElementsByTagName('link')[0].href = "/favicon.png";
+
 function App() {
   return (
     <div className="App">
