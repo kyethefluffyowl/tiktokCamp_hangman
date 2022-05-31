@@ -10,6 +10,8 @@ import image5 from "./images/5.svg";
 import image6 from "./images/6.svg";
 const confetti = require('canvas-confetti');
 
+var livesEmoji = "🤍";
+
 class Hangman extends Component {
   static defaultProps = {
     maxWrong: 6,
@@ -20,6 +22,7 @@ class Hangman extends Component {
     super(props);
     this.state = {
       noOfWrong: 0,
+      prevNoOfWrong: 0,
       guessed: new Set(),
       answer: randomWord(),
     };
@@ -45,8 +48,11 @@ class Hangman extends Component {
     let letter = evt.target.value;
     this.setState((st) => ({
       guessed: st.guessed.add(letter),
+      prevNoOfWrong: st.noOfWrong,
       noOfWrong: st.noOfWrong + (st.answer.includes(letter) ? 0 : 1),
     }));
+
+
   }
 
   generateKeypad() {
@@ -66,7 +72,7 @@ class Hangman extends Component {
     generateLives() {
       let content = [];
       for (let i = 0; i<this.props.maxWrong - this.state.noOfWrong; i++) {
-          content.push("🤍");
+          content.push(livesEmoji);
       }
       return content;
     }
@@ -107,20 +113,27 @@ class Hangman extends Component {
 
     }
 
-    keyPressEventListener() {
-		window.addEventListener("keydown", function(event) {
-			let letter = event.key;
-			var buttons = document.getElementsByTagName('button');
-			for (let i=0; i<buttons.length; i++) {
-				console.log("Now searching: " + buttons[i].value + "| " + letter);
-				if (buttons[i].value == letter) {
-					buttons[i].click();
-					break;
-				}
-			}
-		  }, true);
-	}
+    keyPressEventListener(restart) {
+      window.addEventListener("keydown", function(event) {
+        let letter = event.key;
+        var buttons = document.getElementsByTagName('button');
+        for (let i=0; i<buttons.length; i++) {
+          // console.log("Now searching: " + buttons[i].value + "| " + letter + " | " + event.code);
+          if (buttons[i].value === letter) {
+            buttons[i].click();
+            break;}
+        }
+        if (buttons[0].value === 'restartPls' && event.code === 'Space') {buttons[0].click();}
+      }, true);
+    }
 
+    wiggleScreen() {
+      let yes = document.getElementById('root');
+      yes.classList.add("horAnimation", "wiggle");
+      window.setTimeout(() => {
+        yes.classList.remove("horAnimation", "wiggle");
+      }, 200);
+    }
 
   render() {
     const gameOver = this.state.noOfWrong >= this.props.maxWrong;
@@ -131,9 +144,11 @@ class Hangman extends Component {
     if (gameOver) gameState = "It's okay! You can try again! :)";
     let restart = gameOver || isWinner;
     let livesLeft = this.generateLives();
+    if (this.state.prevNoOfWrong < this.state.noOfWrong) {this.wiggleScreen();}; // If wrong guess, vibrate screen
+    
     return (
       <div className="Hangman">
-        <h2>Hangman</h2> {/* Title of the page */}
+        <h2>Hangman</h2> 
         <img src={this.props.images[this.state.noOfWrong]} alt="HangMan" id="hangman-image"/>
         <p id="guessRemaining">{livesLeft}</p>
         <p className="Hangman-word">
@@ -141,11 +156,12 @@ class Hangman extends Component {
         </p>
         <p id="Hangman-keyboard">{gameState}</p>
         {restart && (
-          <button id="reset" onClick={this.reset}>
-            Restart?
+          <button id="reset" value={"restartPls"} onClick={this.reset}>
+            <span>Restart</span>
+            <span className="subtext">(You can press space)</span>
           </button>
         )}
-		{onkeydown = this.keyPressEventListener()}
+		    {this.keyPressEventListener(restart)}
       </div>
     );
   }
