@@ -2,33 +2,12 @@ import './App.css';
 // import React from "react";
 import Hangman from "./hangman.js";
 
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload. This is an edit test! Wee
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-var faviconLink = document.querySelector("link[rel~='icon']");
 document.title="Hangman"
 document.getElementsByTagName('link')[0].href = "/favicon.png";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" id='appWindow'>
       <Hangman />
     </div>
   );
